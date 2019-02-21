@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 
 namespace C0725030_Project
@@ -9,14 +13,10 @@ namespace C0725030_Project
         static void Main()
         {
             new CountrySide().Run();
-            
         }
 
         public void Run()
         {
-            //Call the village and Alst is the starting point
-            this.TravelVillages(Alst);
-
             Alst = new Village("Alst", false);
             Schvenig = new Village("Schenig", false);
             //Maeland = new Village("Maeland", false);
@@ -38,35 +38,43 @@ namespace C0725030_Project
             Wessig.west = null;
             Wessig.east = null;
 
-            CurrentVillage = Alst;
-
+            //Call the village and Alst is the starting point
+            this.TravelVillages(Alst);
         }
-        
-        // Create the LinkedList to reflect the Map in the PowerPoint Instructions
-        Village Maeland;
-        Village Helmholtz;
-        Village Alst;
-        Village Wessig;
-        Village Badden;
-        Village Uster;
-        Village Schvenig;
-        Village CurrentVillage;
 
         public void TravelVillages(Village CurrentVillage)
         {
-
-            if (CurrentVillage.isAstrildgeHere)
+            try
             {
-                Console.WriteLine("I found Dear Astrildge in {}", CurrentVillage.VillageName);
-                Console.WriteLine("*****FELLING HAPPY!!!*****");
-                return;
-            }
 
-            //This is recursion
-            TravelVillages(CurrentVillage.west);
-            TravelVillages(CurrentVillage.east);
+                if (CurrentVillage.isAstrildgeHere)
+                {
+                    Console.WriteLine("I found Dear Astrildge in {0}", CurrentVillage.VillageName);
+                    Console.WriteLine("*****FELLING HAPPY!!!*****");
+
+                    return;
+                }
+
+                //This is recursion
+                TravelVillages(CurrentVillage.west);
+                TravelVillages(CurrentVillage.east);
+            }
+            catch (NullReferenceException nre)
+            {
+                Console.WriteLine("Here is the Dragon");
+            }
         }
-    }                
+
+            // Create the LinkedList to reflect the Map in the PowerPoint Instructions
+            Village Maeland;
+            Village Helmholtz;
+            Village Alst;
+            Village Wessig;
+            Village Badden;
+            Village Uster;
+            Village Schvenig;
+        }
+        
         class Village
         {
             public Village(string _villageName, bool _isAHere)
@@ -75,14 +83,13 @@ namespace C0725030_Project
                 VillageName = _villageName;
             }
 
-            public string CurrentVillage;
             public Village west;
             public Village east;
             public string VillageName;
-            public int distanceToNextVillage;
+            //public int distanceToNextVillage;
             public int distanceToWestVillage;
             public int distanceToEastVillage;
-            public int distanceToPreviousVillage;
+            //public int distanceToPreviousVillage;
             public bool isAstrildgeHere;
         }
 }
